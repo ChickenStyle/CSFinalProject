@@ -24,6 +24,15 @@ public class InnitMain {
         return false;
     }
 
+    private static String[] addNewValue(String[] arr, String value){
+        String[] newArr = new String[arr.length + 1];
+        for (int i = 0; i < arr.length; i++) {
+            newArr[i] = arr[i];
+        }
+        newArr[arr.length] = value;
+        return newArr;
+    }
+
     private static void printInfo(String... arr){
         for (int i = 0; i < arr.length; i++){
             if (i == arr.length - 1) {
@@ -66,13 +75,7 @@ public class InnitMain {
                             System.out.println("Lecturer already exists!");
                             break;
                         }
-                        String[] newLecturers = new String[lecturers.length + 1];
-                        for (int i = 0; i < lecturers.length; i++) {
-                            newLecturers[i] = lecturers[i];
-                        }
-
-                        newLecturers[lecturers.length] = lecturer;
-                        lecturers = newLecturers;
+                        lecturers = addNewValue(lecturers, lecturer);
                         System.out.println("Lecturer added successfully!");
                         break;
 
@@ -88,12 +91,7 @@ public class InnitMain {
                             break;
                         }
 
-                        String[] newCommittees = new String[committees.length + 1];
-                        for (int i = 0; i < committees.length; i++) {
-                            newCommittees[i] = committees[i];
-                        }
-                        newCommittees[committees.length] = committee;
-                        committees = newCommittees;
+                        committees = addNewValue(committees, committee);
                         System.out.println("Committee added successfully!");
                         break;
                     }
@@ -109,12 +107,7 @@ public class InnitMain {
                             break;
                         }
 
-                        String[] newCourses = new String[courses.length + 1];
-                        for (int i = 0; i < courses.length; i++) {
-                            newCourses[i] = courses[i];
-                        }
-                        newCourses[courses.length] = course;
-                        courses = newCourses;
+                        courses = addNewValue(courses, course);
                         System.out.println("Course added successfully!");
                         break;
                     }
@@ -154,7 +147,6 @@ public class InnitMain {
                     System.out.println("Invalid function!");
                     break;
             }
-
 
             System.out.println(" ");
         }
