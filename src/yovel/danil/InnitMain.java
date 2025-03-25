@@ -48,7 +48,7 @@ public class InnitMain {
 
     private static void printInfo(String... arr){
         for (int i = 0; i < arr.length; i++){
-            if ((i + 1 < arr.length && arr[i + 1] == null) || i == arr.length - 1){
+            if ((i + 1 < arr.length && arr[i + 1] == null) || i == arr.length - 1){ // Checks if i last or before nulls (last not null value)
                 System.out.print(arr[i]);
                 break;
             }
