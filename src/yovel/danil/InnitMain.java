@@ -17,6 +17,11 @@ public class InnitMain {
                     "\n7 - Show all lecturers info " +
                     "\n8 - Show all committees info\n";
 
+    private static String[] lecturers = new String[1];
+    private static String[] committees = new String[1];
+    private static String[] courses = new String[1];
+
+
     private static boolean isInArray(String[] arr, String str) {
         for (String s : arr) {
             if (s.equals(str)) return true;
@@ -25,7 +30,7 @@ public class InnitMain {
     }
 
     private static String[] addNewValue(String[] arr, String value){
-        String[] newArr = new String[arr.length + 1];
+        String[] newArr = new String[arr.length * 2];
         for (int i = 0; i < arr.length; i++) {
             newArr[i] = arr[i];
         }
@@ -48,9 +53,6 @@ public class InnitMain {
         System.out.print("Enter college name: ");
 
         String college = scanner.nextLine();
-        String[] lecturers = new String[0];
-        String[] committees = new String[0];
-        String[] courses = new String[0];
         System.out.println("College created successfully!");
         System.out.println("Welcome to " + college + " college!");
 

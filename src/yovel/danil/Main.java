@@ -27,14 +27,14 @@ public class Main {
         System.out.println("College created successfully!");
         System.out.println("Welcome to " + name + " college!");
 
-        A: while (true) {
+        while (true) {
             System.out.print("\n"+menu);
             String func = scanner.nextLine();
 
             switch (func) {
                 case "0":
                     System.out.println("Goodbye!");
-                    break A;
+                    return;
 
                 case "1":
                     while (true) {
