@@ -18,29 +18,37 @@ public class InnitMain {
                     "\n8 - Show all committees info\n";
 
     private static String[] lecturers = new String[1];
+    private static int lecturersCount = 0;
     private static String[] committees = new String[1];
+    private static int committeesCount = 0;
     private static String[] courses = new String[1];
+    private static int coursesCount = 0;
 
 
     private static boolean isInArray(String[] arr, String str) {
         for (String s : arr) {
-            if (s.equals(str)) return true;
+            if (s != null && s.equals(str)) return true;
         }
         return false;
     }
 
-    private static String[] addNewValue(String[] arr, String value){
+    private static String[] addNewValue(String[] arr,int count, String value){
+        if (count < arr.length) {
+            arr[count] = value;
+            return arr;
+        }
+
         String[] newArr = new String[arr.length * 2];
         for (int i = 0; i < arr.length; i++) {
             newArr[i] = arr[i];
         }
-        newArr[arr.length] = value;
+        newArr[count] = value;
         return newArr;
     }
 
     private static void printInfo(String... arr){
         for (int i = 0; i < arr.length; i++){
-            if (i == arr.length - 1) {
+            if ((i + 1 < arr.length && arr[i + 1] == null) || i == arr.length - 1){
                 System.out.print(arr[i]);
                 break;
             }
@@ -75,9 +83,10 @@ public class InnitMain {
                         if (lecturer.isEmpty()) continue;
                         if (isInArray(lecturers, lecturer)) {
                             System.out.println("Lecturer already exists!");
-                            break;
+                            continue;
                         }
-                        lecturers = addNewValue(lecturers, lecturer);
+                        lecturers = addNewValue(lecturers,lecturersCount, lecturer);
+                        lecturersCount++;
                         System.out.println("Lecturer added successfully!");
                         break;
 
@@ -90,10 +99,11 @@ public class InnitMain {
                         if (committee.isEmpty()) continue;
                         if (isInArray(committees, committee)) {
                             System.out.println("Committee already exists!");
-                            break;
+                            continue;
                         }
 
-                        committees = addNewValue(committees, committee);
+                        committees = addNewValue(committees, committeesCount,committee);
+                        committeesCount++;
                         System.out.println("Committee added successfully!");
                         break;
                     }
@@ -106,10 +116,11 @@ public class InnitMain {
                         if (course.isEmpty()) continue;
                         if (isInArray(courses, course)) {
                             System.out.println("Course already exists!");
-                            break;
+                            continue;
                         }
 
-                        courses = addNewValue(courses, course);
+                        courses = addNewValue(courses, coursesCount,course);
+                        coursesCount++;
                         System.out.println("Course added successfully!");
                         break;
                     }
