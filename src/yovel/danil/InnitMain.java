@@ -4,7 +4,9 @@ import java.util.Scanner;
 
 public class InnitMain {
 
-    // Daniel And Yovel
+    // Danil Sapunkov And Yovel Biton
+    // דניל ספונקוב ויובל ביטון
+
     private static final String menu =
             "here are the functions:" +
                     "\n0 - Exit " +
@@ -27,7 +29,8 @@ public class InnitMain {
 
     private static boolean isInArray(String[] arr, String str) {
         for (String s : arr) {
-            if (s != null && s.equals(str)) return true;
+            if (s == null) break;
+            if (s.equals(str)) return true;
         }
         return false;
     }
