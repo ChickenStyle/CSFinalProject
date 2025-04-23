@@ -3,15 +3,21 @@ package yovel.danil;
 public class College {
     private final String name;
     private Lecturer[] lecturers;
+    private int lecturersCount;
     private Committee[] committees;
+    private int committeesCount;
     private Course[] courses;
+    private int coursesCount;
 
 
     public College(String name) {
         this.name = name;
-        this.courses = new Course[0];
-        this.committees = new Committee[0];
-        this.lecturers = new Lecturer[0];
+        this.courses = new Course[1];
+        this.committees = new Committee[1];
+        this.lecturers = new Lecturer[1];
+        this.lecturersCount = 0;
+        this.committeesCount = 0;
+        this.coursesCount = 0;
     }
 
     public String getName() {
@@ -34,58 +40,79 @@ public class College {
         if (course == null) return false;
         if (hasCourse(course)) return false;
 
-        Course[] newCourses = new Course[courses.length + 1];
-        for (int i = 0; i < courses.length; i++) {
-            newCourses[i] = courses[i];
+
+        if (this.lecturersCount >= this.courses.length) {
+            Course[] newCourses = new Course[courses.length *2];
+            for (int i = 0; i < courses.length; i++) {
+                newCourses[i] = courses[i];
+            }
+            this.courses = newCourses;
         }
-        newCourses[courses.length] = new Course(course);
-        this.courses = newCourses;
+        this.courses[this.coursesCount] = new Course(course);
+        this.coursesCount++;
         return true;
+
     }
 
-    public boolean addLecturer(String lecturer) {
+    public boolean addLecturer(Lecturer lecturer) {
         if (lecturer == null) return false;
-        if (hasLecturer(lecturer)) return false;
+        if (hasLecturer(lecturer.getName())) return false;
 
-        Lecturer[] newLecturers = new Lecturer[lecturers.length + 1];
-        for (int i = 0; i < lecturers.length; i++) {
-            newLecturers[i] = this.lecturers[i];
+        if (this.lecturersCount >= this.lecturers.length) {
+            Lecturer[] newLecturers = new Lecturer[lecturers.length + 1];
+            for (int i = 0; i < lecturers.length; i++) {
+                newLecturers[i] = this.lecturers[i];
+            }
+            this.lecturers = newLecturers;
         }
-        newLecturers[lecturers.length] = new Lecturer(lecturer);
-        this.lecturers = newLecturers;
+        this.lecturers[this.lecturersCount] = lecturer;
+        this.lecturersCount++;
         return true;
 
     }
 
-    public boolean addCommittee(String committee) {
-        if (committee == null) return false;
-        if (hasCommittee(committee)) return false;
-
-        Committee[] newCommittees = new Committee[committees.length + 1];
-        for (int i = 0; i < committees.length; i++) {
-            newCommittees[i] = committees[i];
+    public Lecturer getLecturerByName(String lecturerName) {
+        for (Lecturer lecturer : this.lecturers) {
+            if (lecturer.getName().equals(lecturerName)) return lecturer;
         }
-        newCommittees[committees.length] = new Committee(committee);
-        this.committees = newCommittees;
+        return null;
+    }
+
+    public boolean addCommittee(Committee committee) {
+        if (committee == null) return false;
+        if (hasCommittee(committee.getName())) return false;
+
+        if (this.committeesCount >= this.committees.length) {
+            Committee[] newCommittees = new Committee[committees.length + 1];
+            for (int i = 0; i < committees.length; i++) {
+                newCommittees[i] = committees[i];
+            }
+            this.committees = newCommittees;
+        }
+        this.committees[this.committeesCount] = committee;
+        this.committeesCount++;
         return true;
     }
 
     public boolean hasCourse(String course){
         for (Course c : courses) {
+            if (c == null) continue;
             if (c.getName().equals(course)) return true;
         }
         return false;
     }
 
-    public boolean hasLecturer(String lecturer){
+    public boolean hasLecturer(String lecturerName){
         for (Lecturer l : lecturers) {
-            if (l.getName().equals(lecturer)) return true;
+            if (l == null) continue;
+            if (l.getName().equals(lecturerName)) return true;
         }
         return false;
     }
 
     public boolean hasCommittee(String committee){
         for (Committee c : committees) {
+            if (c == null) continue;
             if (c.getName().equals(committee)) return true;
         }
         return false;

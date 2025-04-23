@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Main {
     // Daniel And Yovel
+
+    private static final Scanner scanner = new Scanner(System.in);
     private static final String menu =
             "here are the functions:" +
                     "\n0 - Exit " +
@@ -14,11 +16,16 @@ public class Main {
                     "\n5 - Show college lecturer average salary " +
                     "\n6 - Show specific course's lecturers average salary " +
                     "\n7 - Show all lecturers info " +
-                    "\n8 - Show all committees info\n";
+                    "\n8 - Show all committees info\n" +
+                    "\n9 - "
+
+
+
+
+            ;
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Enter college name: ");
 
         String name = scanner.nextLine();
@@ -38,28 +45,76 @@ public class Main {
 
                 case "1":
                     while (true) {
-                        System.out.print("Enter lecturer name: ");
-                        String lecturer = scanner.nextLine();
-                        if (lecturer.isEmpty()) continue;
-                        if (college.addLecturer(lecturer)) {
-                            System.out.println("Lecturer added successfully!");
-                            break;
-                        } else {
-                            System.out.println("Lecturer already exists!");
+                        System.out.println("Enter lecturer name: ");
+                        String lecturerName = scanner.nextLine();
+
+                        if (college.hasLecturer(lecturerName)) {
+                            System.out.println("This lecturer already exists!");
+                            continue;
                         }
+
+                        System.out.println("Enter lecturer id: ");
+                        int lecturerId = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.println("Enter Lecturer's Degree (First, Second, Doctor, Professor): ");
+                        String degreeStr = scanner.nextLine();
+                        System.out.println(Degree.isValidDegree(degreeStr));
+                        if (!Degree.isValidDegree(degreeStr)) {
+                            System.out.println("Invalid degree (Options: First, Second, Doctor, Professor)");
+                            continue;
+                        }
+
+                        Degree degree = Degree.valueOf(degreeStr.toUpperCase());
+
+                        System.out.println("Enter lecturer major: ");
+                        String major = scanner.nextLine();
+
+                        System.out.println("Enter lecturer salary: ");
+                        int lecturerSalary = scanner.nextInt();
+
+                        Lecturer newLecturer = new Lecturer(lecturerName, lecturerId, degree, major, lecturerSalary, null);
+                        college.addLecturer(newLecturer);
+                        System.out.println("Lecturer added successfully!");
+                        break;
+
                     }
                     break;
+
+
                 case "2":
                     while (true) {
                         System.out.print("Enter committee name: ");
-                        String committee = scanner.nextLine();
-                        if (committee.isEmpty()) continue;
-                        if (college.addCommittee(committee)) {
-                            System.out.println("Committee added successfully!");
-                            break;
-                        } else {
-                            System.out.println("Committee already exists!");
+                        String committeeName = scanner.nextLine();
+
+                        if (college.hasCommittee(committeeName)) {
+                            System.out.println("This committee already exists!");
+                            continue;
                         }
+
+                        Committee committee = new Committee(committeeName);
+
+
+                        System.out.println("Enter Chairman name (Should be a valid lecturer with at least doctor degree): ");
+                        String chairmanName = scanner.nextLine();
+
+                        if (!college.hasLecturer(chairmanName)) {
+                            System.out.println("This lecturer does not exist!");
+                            continue;
+                        }
+
+                        Lecturer chairman = college.getLecturerByName(chairmanName);
+
+                        if (!committee.setChairman(chairman)) {
+                            System.out.println("Chairman doesn't meet the requirements! (At least Doctors Degree)");
+                            continue;
+                        }
+
+                        System.out.println("Chairman set successfully!");
+
+                        college.addCommittee(committee);
+                        System.out.println("Committee added successfully!");
+                        break;
                     }
                     break;
 
@@ -92,6 +147,9 @@ public class Main {
                             System.out.println("Committee doesn't exist!");
                             break;
                         }
+
+
+                        break;
                     }
                     break;
                 case "5":
@@ -118,3 +176,5 @@ public class Main {
 
     }
 }
+
+
