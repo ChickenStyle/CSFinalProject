@@ -14,11 +14,10 @@ public class Department {
         this.lecturerCount = lecturers.length;
     }
 
-    public Department(String name) {
-        this(name, 0, new Lecturer[1]);
+    public Department(String name, int studentCount) {
+        this(name, studentCount, new Lecturer[1]);
         this.lecturerCount = 0;
     }
-
 
     public String getName() {
         return name;

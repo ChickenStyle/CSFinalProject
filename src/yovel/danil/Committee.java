@@ -1,5 +1,7 @@
 package yovel.danil;
 
+import java.util.Arrays;
+
 public class Committee {
     private String name;
     private Lecturer chairman;
@@ -47,6 +49,7 @@ public class Committee {
     public boolean isMember(Lecturer lecturer) {
         if (lecturer == null) return false;
         for (Lecturer member: members) {
+            if (member == null) continue;
             if (member.equals(lecturer)) return true;
         }
         return false;
@@ -65,11 +68,30 @@ public class Committee {
         }
         members[this.membersCount] = member;
         this.membersCount++;
+        member.addCommittee(this);
+        return true;
+    }
+
+    public boolean removeMember(Lecturer member) {
+        if (member == null) return false;
+        if (!isMember(member)) return false;
+
+        Lecturer[] newMembers = new Lecturer[members.length];
+        int counter = 0;
+        for (Lecturer lecturer : this.members) {
+            if (lecturer != null && !lecturer.equals(member)) {
+                newMembers[counter] = lecturer;
+                counter++;
+            }
+        }
+
+        this.membersCount--;
+        this.members = newMembers;
         return true;
     }
 
     @Override
     public String toString() {
-        return name;
+        return "Name: " + name + " Chairman:" + chairman.getName() + " Members Count: " + membersCount;
     }
 }

@@ -6,18 +6,18 @@ public class College {
     private int lecturersCount;
     private Committee[] committees;
     private int committeesCount;
-    private Course[] courses;
-    private int coursesCount;
+    private Department[] departments;
+    private int departmentsCount;
 
 
     public College(String name) {
         this.name = name;
-        this.courses = new Course[1];
         this.committees = new Committee[1];
         this.lecturers = new Lecturer[1];
+        this.departments = new Department[1];
+        this.departmentsCount = 0;
         this.lecturersCount = 0;
         this.committeesCount = 0;
-        this.coursesCount = 0;
     }
 
     public String getName() {
@@ -32,27 +32,6 @@ public class College {
         return committees;
     }
 
-    public Course[] getCourses() {
-        return courses;
-    }
-
-    public boolean addCourse(String course){
-        if (course == null) return false;
-        if (hasCourse(course)) return false;
-
-
-        if (this.lecturersCount >= this.courses.length) {
-            Course[] newCourses = new Course[courses.length *2];
-            for (int i = 0; i < courses.length; i++) {
-                newCourses[i] = courses[i];
-            }
-            this.courses = newCourses;
-        }
-        this.courses[this.coursesCount] = new Course(course);
-        this.coursesCount++;
-        return true;
-
-    }
 
     public boolean addLecturer(Lecturer lecturer) {
         if (lecturer == null) return false;
@@ -71,9 +50,49 @@ public class College {
 
     }
 
+    public boolean addDepartment(Department department) {
+        if (department == null) return false;
+        if (hasDepartment(department.getName())) return false;
+        if (this.departmentsCount >= this.departments.length) {
+            Department[] newDepartments = new Department[this.departments.length*2];
+            for (int i = 0; i < this.departments.length; i++) {
+                newDepartments[i] = this.departments[i];
+            }
+            this.departments = newDepartments;
+        }
+        this.departments[this.departmentsCount] = department;
+        this.departmentsCount++;
+        return true;
+    }
+
+    public Department getDepartmentByName(String name) {
+        if (name == null) return null;
+        for (Department department : this.departments) {
+            if (department.getName().equals(name)) {
+                return department;
+            }
+        }
+        return null;
+    }
+
+    public boolean hasDepartment(String departmentName) {
+        if (departmentName == null) return false;
+        for (Department department : this.departments) {
+            if (department.getName().equals(departmentName)) return true;
+        }
+        return false;
+    }
+
     public Lecturer getLecturerByName(String lecturerName) {
         for (Lecturer lecturer : this.lecturers) {
             if (lecturer.getName().equals(lecturerName)) return lecturer;
+        }
+        return null;
+    }
+
+    public Committee getCommitteeByName(String committeeName) {
+        for (Committee committee : this.committees) {
+            if (committee.getName().equals(committeeName)) return committee;
         }
         return null;
     }
@@ -94,14 +113,6 @@ public class College {
         return true;
     }
 
-    public boolean hasCourse(String course){
-        for (Course c : courses) {
-            if (c == null) continue;
-            if (c.getName().equals(course)) return true;
-        }
-        return false;
-    }
-
     public boolean hasLecturer(String lecturerName){
         for (Lecturer l : lecturers) {
             if (l == null) continue;
@@ -116,28 +127,6 @@ public class College {
             if (c.getName().equals(committee)) return true;
         }
         return false;
-    }
-
-    private void printInfo(Object... arr){
-        for (int i = 0; i < arr.length; i++){
-            if (i == arr.length - 1) {
-                System.out.print(arr[i]);
-                break;
-            }
-            System.out.print(arr[i] + ", ");
-        }
-    }
-
-    public void printLecturers(){
-        printInfo(this.lecturers);
-    }
-
-    public void printCourses(){
-        printInfo(this.courses);
-    }
-
-    public void printCommittees(){
-        printInfo(this.committees);
     }
 
 }

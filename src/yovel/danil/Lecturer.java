@@ -6,17 +6,25 @@ public class Lecturer {
     private int id;
     private Degree degree;
     private String major;
-    private int salary;
+    private float salary;
     private Department department;
+    private Committee[] committees;
+    private int committeesCount;
 
 
-    public Lecturer(String name, int id, Degree degree, String major, int salary, Department department) {
+    public Lecturer(String name, int id, Degree degree, String major, float salary, Department department) {
         this.name = name;
         this.id = id;
         this.degree = degree;
         this.major = major;
         this.salary = salary;
         this.department = department;
+        this.committees = new Committee[1];
+        this.committeesCount = 0;
+    }
+
+    public boolean hasDepartment() {
+        return department != null;
     }
 
     public int getId() {
@@ -31,7 +39,7 @@ public class Lecturer {
         return major;
     }
 
-    public int getSalary() {
+    public float getSalary() {
         return salary;
     }
 
@@ -47,9 +55,29 @@ public class Lecturer {
         this.name = name;
     }
 
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public void addCommittee(Committee committee) {
+        if (this.committeesCount >= this.committees.length) {
+            Committee[] newCommittees = new Committee[this.committees.length * 2];
+            for (int i = 0; i < this.committees.length; i++) {
+                newCommittees[i] = this.committees[i];
+            }
+            this.committees = newCommittees;
+        }
+        this.committees[this.committeesCount] = committee;
+        this.committeesCount++;
+    }
+
     @Override
     public String toString() {
-        return name;
+        String committeesString = "";
+        for (int i = 0; i < committeesCount; i++) {
+            committeesString += committees[i].getName() + " ";
+        }
+        return "Name: " + name + "\n Current Committees: " + committeesString;
     }
 
     @Override
@@ -57,6 +85,6 @@ public class Lecturer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Lecturer lecturer = (Lecturer) o;
-        return id == lecturer.id;
+        return this.name.equals(lecturer.name);
     }
 }
