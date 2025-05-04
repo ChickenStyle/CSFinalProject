@@ -38,6 +38,7 @@ public class Committee {
     public boolean setChairman(Lecturer chairman) {
         if (chairman == null) return false;
         if (chairman.getDegree() == Degree.FIRST || chairman.getDegree() == Degree.SECOND) return false;
+        if (isMember(chairman)) return false;
         this.chairman = chairman;
         return true;
     }
@@ -58,13 +59,11 @@ public class Committee {
     public boolean addMember(Lecturer member) {
         if (member == null) return false;
         if (isMember(member)) return false;
+        if (this.chairman == member) return false;
+
 
         if (this.membersCount >= members.length) {
-            Lecturer[] newMembers = new Lecturer[members.length * 2];
-            for (int i = 0; i < this.members.length; i++) {
-                newMembers[i] = this.members[i];
-            }
-            members = newMembers;
+            members = Utils.expandStrArr(this.members);
         }
         members[this.membersCount] = member;
         this.membersCount++;

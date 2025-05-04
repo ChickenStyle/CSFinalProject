@@ -40,6 +40,7 @@ public class Department {
     }
     private boolean isLecturerInDepartment(Lecturer lecturer) {
         for (int i = 0; i < lecturers.length; i++) {
+            if (lecturers[i] == null) continue;
             if (lecturers[i].equals(lecturer)) {
                 return true;
             }
@@ -51,12 +52,9 @@ public class Department {
         if (lecturer == null) {return false;}
         if (isLecturerInDepartment(lecturer)) { return false;}
 
+
         if (this.lecturerCount >= this.lecturers.length) {
-            Lecturer[] newLecturers = new Lecturer[this.lecturers.length * 2];
-            for (int i = 0; i < this.lecturers.length; i++) {
-                newLecturers[i] = this.lecturers[i];
-            }
-            this.lecturers = newLecturers;
+            this.lecturers = Utils.expandStrArr(this.lecturers);
         }
 
         this.lecturers[this.lecturerCount] = lecturer;

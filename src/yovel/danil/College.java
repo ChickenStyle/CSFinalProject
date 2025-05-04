@@ -38,11 +38,7 @@ public class College {
         if (hasLecturer(lecturer.getName())) return false;
 
         if (this.lecturersCount >= this.lecturers.length) {
-            Lecturer[] newLecturers = new Lecturer[lecturers.length + 1];
-            for (int i = 0; i < lecturers.length; i++) {
-                newLecturers[i] = this.lecturers[i];
-            }
-            this.lecturers = newLecturers;
+            this.lecturers = Utils.expandStrArr(this.lecturers);
         }
         this.lecturers[this.lecturersCount] = lecturer;
         this.lecturersCount++;
@@ -54,11 +50,7 @@ public class College {
         if (department == null) return false;
         if (hasDepartment(department.getName())) return false;
         if (this.departmentsCount >= this.departments.length) {
-            Department[] newDepartments = new Department[this.departments.length*2];
-            for (int i = 0; i < this.departments.length; i++) {
-                newDepartments[i] = this.departments[i];
-            }
-            this.departments = newDepartments;
+            this.departments = Utils.expandStrArr(this.departments);
         }
         this.departments[this.departmentsCount] = department;
         this.departmentsCount++;
@@ -67,7 +59,10 @@ public class College {
 
     public Department getDepartmentByName(String name) {
         if (name == null) return null;
+        Utils.printArr(this.departments);
         for (Department department : this.departments) {
+            System.out.println(department);
+            if (department == null) continue;
             if (department.getName().equals(name)) {
                 return department;
             }
@@ -78,6 +73,7 @@ public class College {
     public boolean hasDepartment(String departmentName) {
         if (departmentName == null) return false;
         for (Department department : this.departments) {
+            if (department == null) continue;
             if (department.getName().equals(departmentName)) return true;
         }
         return false;
@@ -85,6 +81,7 @@ public class College {
 
     public Lecturer getLecturerByName(String lecturerName) {
         for (Lecturer lecturer : this.lecturers) {
+            if (lecturer == null) continue;
             if (lecturer.getName().equals(lecturerName)) return lecturer;
         }
         return null;
@@ -92,6 +89,7 @@ public class College {
 
     public Committee getCommitteeByName(String committeeName) {
         for (Committee committee : this.committees) {
+            if (committee == null) continue;
             if (committee.getName().equals(committeeName)) return committee;
         }
         return null;
@@ -102,11 +100,7 @@ public class College {
         if (hasCommittee(committee.getName())) return false;
 
         if (this.committeesCount >= this.committees.length) {
-            Committee[] newCommittees = new Committee[committees.length + 1];
-            for (int i = 0; i < committees.length; i++) {
-                newCommittees[i] = committees[i];
-            }
-            this.committees = newCommittees;
+            this.committees = Utils.expandStrArr(this.committees);
         }
         this.committees[this.committeesCount] = committee;
         this.committeesCount++;

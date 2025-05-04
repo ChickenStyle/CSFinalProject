@@ -61,11 +61,7 @@ public class Lecturer {
 
     public void addCommittee(Committee committee) {
         if (this.committeesCount >= this.committees.length) {
-            Committee[] newCommittees = new Committee[this.committees.length * 2];
-            for (int i = 0; i < this.committees.length; i++) {
-                newCommittees[i] = this.committees[i];
-            }
-            this.committees = newCommittees;
+            this.committees = Utils.expandStrArr(this.committees);
         }
         this.committees[this.committeesCount] = committee;
         this.committeesCount++;

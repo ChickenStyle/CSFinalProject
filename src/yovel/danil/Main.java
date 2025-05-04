@@ -16,7 +16,7 @@ public class Main {
                     "\n5 - Remove committee's member " +
                     "\n6 - Add department" +
                     "\n7 - Average salary of lecturers in the college" +
-                    "\n8 - Average salary of committee's members" +
+                    "\n8 - Average salary of department's members" +
                     "\n9 - Lecturers info" +
                     "\n10 - Departments info\n";
 
@@ -29,6 +29,7 @@ public class Main {
         College college = new College(name);
         System.out.println("College created successfully!");
         System.out.println("Welcome to " + name + " college!");
+
 
         while (true) {
             System.out.print("\n"+menu);
@@ -55,7 +56,6 @@ public class Main {
 
                         System.out.println("Enter Lecturer's Degree (First, Second, Doctor, Professor): ");
                         String degreeStr = scanner.nextLine();
-                        System.out.println(Degree.isValidDegree(degreeStr));
                         if (!Degree.isValidDegree(degreeStr)) {
                             System.out.println("Invalid degree (Options: First, Second, Doctor, Professor)");
                             continue;
@@ -103,7 +103,7 @@ public class Main {
                         Lecturer chairman = college.getLecturerByName(chairmanName);
 
                         if (!committee.setChairman(chairman)) {
-                            System.out.println("Chairman doesn't meet the requirements! (At least Doctors Degree)");
+                            System.out.println("Chairman doesn't meet the requirements! (At least Doctors Degree, and he can't be a member of this committee)");
                             continue;
                         }
 
@@ -272,14 +272,17 @@ public class Main {
                 case "8":
                     System.out.println("Enter department name: ");
                     String departmentNam = scanner.nextLine();
-                    if (!college.hasDepartment(departmentNam)) {
+                    Department department1 = college.getDepartmentByName(departmentNam);
+
+                    if (department1 == null) {
                         System.out.println(departmentNam + " department does not exist!");
+                        break;
                     }
 
-                    Department department1 = college.getDepartmentByName(departmentNam);
-                    int averageSalary = 0;
+                    float averageSalary = 0;
 
                     for (Lecturer lecturer : department1.getLecturers()) {
+                        if (lecturer == null) continue;
                         averageSalary += lecturer.getSalary();
                     }
 
