@@ -1,5 +1,7 @@
 package yovel.danil;
 
+import yovel.danil.lecturers.Lecturer;
+
 public class College {
     private final String name;
     private Lecturer[] lecturers;
@@ -8,6 +10,20 @@ public class College {
     private int committeesCount;
     private Department[] departments;
     private int departmentsCount;
+
+    private static final String menu =
+            "here are the functions:" +
+                    "\n0 - Exit " +
+                    "\n1 - Add a lecturer " +
+                    "\n2 - Add a committee " +
+                    "\n3 - Add a lecturer to a committee " +
+                    "\n4 - Change committee's chairman " +
+                    "\n5 - Remove committee's member " +
+                    "\n6 - Add department" +
+                    "\n7 - Average salary of lecturers in the college" +
+                    "\n8 - Average salary of department's members" +
+                    "\n9 - Lecturers info" +
+                    "\n10 - Departments info\n";
 
 
     public College(String name) {
@@ -122,5 +138,11 @@ public class College {
         }
         return false;
     }
+
+    public static String getMenu() {
+        return menu;
+    }
+
+
 
 }

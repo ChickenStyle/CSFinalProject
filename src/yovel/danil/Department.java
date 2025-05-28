@@ -1,5 +1,7 @@
 package yovel.danil;
 
+import yovel.danil.lecturers.Lecturer;
+
 public class Department {
 
     private String name;

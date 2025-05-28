@@ -1,5 +1,7 @@
 package yovel.danil;
 
+import yovel.danil.lecturers.*;
+
 public class Utils {
 
 
@@ -31,5 +33,27 @@ public class Utils {
         for (Object s : arr) {
             System.out.print(s + ", ");
         }
+    }
+
+    public static Lecturer createLecturer(String name, int id, Degree degree, String major, float salary, Department department) {
+        switch (degree){
+            case FIRST -> {
+                return new FirstDegLecturer(name,id,major,salary,department);
+            }
+
+            case SECOND -> {
+                return new SecDegLecturer(name,id,major,salary,department);
+            }
+
+            case DOCTOR -> {
+                return new DocDegLecturer(name, id, major,salary,department);
+            }
+
+            case PROFESSOR -> {
+                return new ProfDegLecturer(name,id, major, salary, department);
+            }
+
+        }
+        return null;
     }
 }

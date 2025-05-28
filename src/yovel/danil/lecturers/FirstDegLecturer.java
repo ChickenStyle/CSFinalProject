@@ -1,21 +1,23 @@
-package yovel.danil;
+package yovel.danil.lecturers;
 
-public class Lecturer {
+import yovel.danil.Committee;
+import yovel.danil.Degree;
+import yovel.danil.Department;
+import yovel.danil.Utils;
+
+public class FirstDegLecturer extends Lecturer {
 
     private String name;
-    private int id;
-    private Degree degree;
-    private String major;
+    private final int id;
+    private final String major;
     private float salary;
     private Department department;
     private Committee[] committees;
     private int committeesCount;
 
-
-    public Lecturer(String name, int id, Degree degree, String major, float salary, Department department) {
-        this.name = name;
+    public FirstDegLecturer(String name, int id, String major, float salary, Department department) {
         this.id = id;
-        this.degree = degree;
+        this.name = name;
         this.major = major;
         this.salary = salary;
         this.department = department;
@@ -31,16 +33,17 @@ public class Lecturer {
         return id;
     }
 
-    public Degree getDegree() {
-        return degree;
-    }
-
     public String getMajor() {
         return major;
     }
 
     public float getSalary() {
         return salary;
+    }
+
+    public void setSalary(float salary) {
+        if (salary < 0) throw new RuntimeException("Salary can't be negative");
+        this.salary = salary;
     }
 
     public Department getDepartment() {
@@ -79,8 +82,13 @@ public class Lecturer {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Lecturer lecturer = (Lecturer) o;
-        return this.name.equals(lecturer.name);
+        if (!(o instanceof FirstDegLecturer lecturer)) return false;
+        return this.name.equals(lecturer.getName());
     }
+
+    public Degree getDegree(){
+        return Degree.FIRST;
+    }
+
+
 }

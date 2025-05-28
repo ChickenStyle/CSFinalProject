@@ -1,6 +1,6 @@
 package yovel.danil;
 
-import java.util.Arrays;
+import yovel.danil.lecturers.Lecturer;
 
 public class Committee {
     private String name;

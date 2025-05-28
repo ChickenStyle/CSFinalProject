@@ -1,24 +1,13 @@
 package yovel.danil;
 
+import yovel.danil.lecturers.Lecturer;
+
 import java.util.Scanner;
 
 public class Main {
     // Daniel And Yovel
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final String menu =
-            "here are the functions:" +
-                    "\n0 - Exit " +
-                    "\n1 - Add a lecturer " +
-                    "\n2 - Add a committee " +
-                    "\n3 - Add a lecturer to a committee " +
-                    "\n4 - Change committee's chairman " +
-                    "\n5 - Remove committee's member " +
-                    "\n6 - Add department" +
-                    "\n7 - Average salary of lecturers in the college" +
-                    "\n8 - Average salary of department's members" +
-                    "\n9 - Lecturers info" +
-                    "\n10 - Departments info\n";
 
     public static void main(String[] args) {
 
@@ -32,7 +21,7 @@ public class Main {
 
 
         while (true) {
-            System.out.print("\n"+menu);
+            System.out.print("\n"+College.getMenu());
             String func = scanner.nextLine();
 
             switch (func) {
@@ -69,7 +58,8 @@ public class Main {
                         System.out.println("Enter lecturer salary: ");
                         int lecturerSalary = scanner.nextInt();
 
-                        Lecturer newLecturer = new Lecturer(lecturerName, lecturerId, degree, major, lecturerSalary, null);
+                        Lecturer newLecturer = Utils.createLecturer(name, lecturerId, degree, major, lecturerSalary, null);
+
                         college.addLecturer(newLecturer);
                         System.out.println("Lecturer added successfully!");
                         break;
