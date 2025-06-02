@@ -93,4 +93,8 @@ public class Committee {
     public String toString() {
         return "Name: " + name + " Chairman:" + chairman.getName() + " Members Count: " + membersCount;
     }
+
+    public Committee copy() {
+        return new Committee(name + "-new", chairman, members, membersCount);
+    }
 }

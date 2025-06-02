@@ -19,6 +19,9 @@ public class DocDegLecturer extends SecDegLecturer {
     }
 
 
+    public int getPublishedArticlesCount() {
+        return publishedArticlesCount;
+    }
 
     public void addArticle(String article) {
         if (hasPublishedArticles(article)) { return;}

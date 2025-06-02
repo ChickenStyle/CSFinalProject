@@ -49,28 +49,24 @@ public class College {
     }
 
 
-    public boolean addLecturer(Lecturer lecturer) {
-        if (lecturer == null) return false;
-        if (hasLecturer(lecturer.getName())) return false;
+    public void addLecturer(Lecturer lecturer) {
+        if (lecturer == null) return;
 
         if (this.lecturersCount >= this.lecturers.length) {
             this.lecturers = Utils.expandStrArr(this.lecturers);
         }
         this.lecturers[this.lecturersCount] = lecturer;
         this.lecturersCount++;
-        return true;
 
     }
 
-    public boolean addDepartment(Department department) {
-        if (department == null) return false;
-        if (hasDepartment(department.getName())) return false;
+    public void addDepartment(Department department) {
+        if (department == null) return;
         if (this.departmentsCount >= this.departments.length) {
             this.departments = Utils.expandStrArr(this.departments);
         }
         this.departments[this.departmentsCount] = department;
         this.departmentsCount++;
-        return true;
     }
 
     public Department getDepartmentByName(String name) {
@@ -86,13 +82,9 @@ public class College {
         return null;
     }
 
-    public boolean hasDepartment(String departmentName) {
-        if (departmentName == null) return false;
-        for (Department department : this.departments) {
-            if (department == null) continue;
-            if (department.getName().equals(departmentName)) return true;
-        }
-        return false;
+    public void hasDepartment(String departmentName) throws ExistsException {
+        if (departmentName == null) return;
+        if (getDepartmentByName(departmentName) != null) throw new ExistsException(departmentName, "Department");
     }
 
     public Lecturer getLecturerByName(String lecturerName) {
@@ -111,32 +103,24 @@ public class College {
         return null;
     }
 
-    public boolean addCommittee(Committee committee) {
-        if (committee == null) return false;
-        if (hasCommittee(committee.getName())) return false;
+    public void addCommittee(Committee committee) {
+        if (committee == null) return;
 
         if (this.committeesCount >= this.committees.length) {
             this.committees = Utils.expandStrArr(this.committees);
         }
         this.committees[this.committeesCount] = committee;
         this.committeesCount++;
-        return true;
     }
 
-    public boolean hasLecturer(String lecturerName){
-        for (Lecturer l : lecturers) {
-            if (l == null) continue;
-            if (l.getName().equals(lecturerName)) return true;
-        }
-        return false;
+    public void hasLecturer(String lecturerName) throws ExistsException {
+        if (lecturerName == null) return;
+        if (getLecturerByName(lecturerName) != null) throw new ExistsException(lecturerName, "Lecturer");
     }
 
-    public boolean hasCommittee(String committee){
-        for (Committee c : committees) {
-            if (c == null) continue;
-            if (c.getName().equals(committee)) return true;
-        }
-        return false;
+    public void hasCommittee(String committee) throws ExistsException{
+        if (committee == null) return;
+        if (getCommitteeByName(committee) != null) throw new ExistsException(committee, "Committee");
     }
 
     public static String getMenu() {

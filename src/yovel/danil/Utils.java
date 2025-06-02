@@ -35,6 +35,7 @@ public class Utils {
         }
     }
 
+
     public static Lecturer createLecturer(String name, int id, Degree degree, String major, float salary, Department department) {
         switch (degree){
             case FIRST -> {

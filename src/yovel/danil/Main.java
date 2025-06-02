@@ -1,5 +1,6 @@
 package yovel.danil;
 
+import yovel.danil.lecturers.DocDegLecturer;
 import yovel.danil.lecturers.Lecturer;
 
 import java.util.Scanner;
@@ -34,8 +35,11 @@ public class Main {
                         System.out.println("Enter lecturer name: ");
                         String lecturerName = scanner.nextLine();
 
-                        if (college.hasLecturer(lecturerName)) {
-                            System.out.println("This lecturer already exists!");
+
+                        try {
+                            college.hasLecturer(lecturerName);
+                        } catch (ExistsException e) {
+                            System.out.println(e.getMessage());
                             continue;
                         }
 
@@ -73,10 +77,14 @@ public class Main {
                         System.out.print("Enter committee name: ");
                         String committeeName = scanner.nextLine();
 
-                        if (college.hasCommittee(committeeName)) {
-                            System.out.println("This committee already exists!");
+
+                        try {
+                            college.hasCommittee(committeeName);
+                        } catch (ExistsException ex) {
+                            System.out.println(ex.getMessage());
                             continue;
                         }
+
 
                         Committee committee = new Committee(committeeName);
 
@@ -84,10 +92,15 @@ public class Main {
                         System.out.println("Enter Chairman name (Should be a valid lecturer with at least doctor degree): ");
                         String chairmanName = scanner.nextLine();
 
-                        while (!college.hasLecturer(chairmanName)) {
-                            System.out.println("This lecturer does not exist!");
-                            System.out.println("Enter Chairman name (Should be a valid lecturer with at least doctor degree): ");
-                            chairmanName = scanner.nextLine();
+                        while(true) {
+                            try {
+                                college.hasLecturer(chairmanName);
+                                System.out.println("This lecturer does not exist!");
+                                System.out.println("Enter Chairman name (Should be a valid lecturer with at least doctor degree): ");
+                                chairmanName = scanner.nextLine();
+                            } catch (ExistsException ex) {
+                                break;
+                            }
                         }
 
                         Lecturer chairman = college.getLecturerByName(chairmanName);
@@ -110,19 +123,27 @@ public class Main {
                         System.out.print("Enter lecturer name: ");
                         String lecturerName = scanner.nextLine();
 
-                        if (!college.hasLecturer(lecturerName)) {
+                        try {
+                            college.hasLecturer(lecturerName);
                             System.out.println("This lecturer does not exist!");
                             continue;
+                        } catch (ExistsException ignored) {
+
                         }
+
+
 
                         String committeeName = null;
                         while(true) {
-                            System.out.println("Enter committee name: ");
-                            committeeName = scanner.nextLine();
-                            if (college.hasCommittee(committeeName)) {
+                            try {
+                                System.out.println("Enter committee name: ");
+                                committeeName = scanner.nextLine();
+                                college.hasCommittee(committeeName);
+                                System.out.println("This committee does not exist!");
+                            } catch (ExistsException ex) {
                                 break;
                             }
-                            System.out.println("This committee does not exist!");
+
                         }
 
                         Lecturer lecturer = college.getLecturerByName(lecturerName);
@@ -144,18 +165,27 @@ public class Main {
                         System.out.print("Enter committee name: ");
                         String committeeName = scanner.nextLine();
 
-                        if (!college.hasCommittee(committeeName)) {
-                            System.out.println("This committee does not exist!");
+                        try {
+                            college.hasCommittee(committeeName);
                             continue;
+                        } catch (ExistsException ignored) {
+
                         }
 
                         System.out.println("Enter lecturer name to replace " + committeeName + "'s chairman (Should be a valid lecturer with at least doctor degree): ");
-                        String lecturerName = scanner.nextLine();
-                        while (!college.hasLecturer(lecturerName)) {
-                            System.out.println("This lecturer does not exist!");
-                            System.out.println("Enter lecturer name to replace " + committeeName + "'s chairman: ");
+                        String lecturerName;
+
+                        while (true) {
                             lecturerName = scanner.nextLine();
+                            try {
+                                college.hasLecturer(lecturerName);
+                                System.out.println("This lecturer does not exist!");
+                                System.out.println("Enter lecturer name to replace " + committeeName + "'s chairman: ");
+                            } catch (ExistsException ex) {
+                                break;
+                            }
                         }
+
 
                         Lecturer lecturer = college.getLecturerByName(lecturerName);
                         Committee committee = college.getCommitteeByName(committeeName);
@@ -176,17 +206,22 @@ public class Main {
                         System.out.print("Enter lecturer name: ");
                         String lecturerName = scanner.nextLine();
 
-                        if (!college.hasLecturer(lecturerName)) {
+                        try {
+                            college.hasLecturer(lecturerName);
                             System.out.println("This lecturer does not exist!");
+                        } catch (ExistsException ex) {
                             continue;
                         }
+
 
                         String committeeName = null;
                         while (true) {
                             System.out.println("Enter committee name: ");
                             committeeName = scanner.nextLine();
-                            if (!college.hasCommittee(committeeName)) {
+                            try {
+                                college.hasCommittee(committeeName);
                                 System.out.println("This committee does not exist!");
+                            } catch (ExistsException ex) {
                                 break;
                             }
                         }
@@ -209,15 +244,17 @@ public class Main {
                     System.out.print("Enter new department name: ");
                     String departmentName = scanner.nextLine();
 
-                    if (college.hasDepartment(departmentName)) {
-                        System.out.println(departmentName + " department already exist!");
+                    try {
+                        college.hasDepartment(departmentName);
+                    } catch (ExistsException ex) {
+                        System.out.println(ex.getMessage());
                         continue;
                     }
+
 
                     System.out.println("Enter department's student amount: ");
                     int studentCount = scanner.nextInt();
                     scanner.nextLine();
-
 
                     Department department = new Department(departmentName, studentCount);
 
@@ -230,8 +267,11 @@ public class Main {
                             break;
                         }
 
-                        if (!college.hasLecturer(lecturerName)) {
+
+                        try {
+                            college.hasLecturer(lecturerName);
                             System.out.println("This lecturer does not exist!");
+                        } catch (ExistsException ex) {
                             continue;
                         }
 
@@ -251,10 +291,10 @@ public class Main {
 
                     break;
                 case "7":
-                    int salariesCombined = 0;
+                    float salariesCombined = 0;
 
                     for (Lecturer lecturer : college.getLecturers()) {
-                        salariesCombined += lecturer.getSalary();
+                        salariesCombined +=  lecturer.getSalary();
                     }
                     System.out.println(college.getName() + "'s average salary is: " + salariesCombined/college.getLecturers().length);
 
@@ -296,6 +336,120 @@ public class Main {
                         System.out.println(committee);
                     }
                     break;
+
+                case "11":
+                    System.out.println("Enter Prof/Doctor lecturer name 1: ");
+                    String lec1Name = scanner.nextLine();
+
+                    try {
+                        college.hasLecturer(lec1Name);
+                        continue;
+                    } catch (ExistsException ignored) {}
+
+                    Lecturer lecturer1 = college.getLecturerByName(lec1Name);
+
+                    if (!(lecturer1 instanceof DocDegLecturer doc1)) {
+                        System.out.println("Lecturer " + lec1Name +  " gotta have at least a Doctor degree!");
+                        continue;
+                    }
+
+                    System.out.println("Enter Prof/Doctor lecturer name 2: ");
+                    String lec2Name = scanner.nextLine();
+
+                    try {
+                        college.hasLecturer(lec2Name);
+                        continue;
+                    } catch (ExistsException ignored) {}
+
+                    Lecturer lecturer2 = college.getLecturerByName(lec2Name);
+
+                    if (!(lecturer2 instanceof DocDegLecturer doc2)) {
+                        System.out.print("Lecturer " + lec2Name +  " gotta have at least a Doctor degree!");
+                        continue;
+                    }
+
+
+                    if (doc1.getPublishedArticlesCount() == doc2.getPublishedArticlesCount()) {
+                        System.out.println(doc1.getName() + " and " + doc2.getName() + " have the same amount of published articles!");
+                    } else {
+                        System.out.println(doc1.getName() + " and " + doc2.getName() + " have the different amount of published articles!");
+                    }
+                    break;
+
+                case "12":
+                    System.out.println("Enter department 1 name: ");
+
+                    String department1Name = scanner.nextLine();
+                    try {
+                        college.hasDepartment(department1Name);
+                    } catch (ExistsException ignored) {}
+
+                    department1 = college.getDepartmentByName(department1Name);
+
+                    System.out.println("Enter department 1 name: ");
+
+                    String department2Name = scanner.nextLine();
+                    try {
+                        college.hasDepartment(department2Name);
+                    } catch (ExistsException ignored) {}
+
+                    Department department2 = college.getDepartmentByName(department1Name);
+
+                    if (department1.getLecturerCount() == department2.getLecturerCount() ) {
+                        System.out.println(department1Name + " & " + department2Name + " have the same amount of lecturers");
+                    } else {
+                        System.out.println(department1Name + " & " + department2Name + " have different amount of lecturers");
+                    }
+
+
+                    break;
+
+
+                case "13":
+
+                    System.out.println("Enter department 1 name: ");
+
+                    String department3Name = scanner.nextLine();
+                    try {
+                        college.hasDepartment(department3Name);
+                    } catch (ExistsException ignored) {}
+
+                    Department department3 = college.getDepartmentByName(department3Name);
+
+                    System.out.println("Enter department 1 name: ");
+
+                    String department4Name = scanner.nextLine();
+                    try {
+                        college.hasDepartment(department4Name);
+                    } catch (ExistsException ignored) {}
+
+                    Department department4 = college.getDepartmentByName(department4Name);
+
+                    if (department3.getAllPublishedArticlesCount() == department4.getAllPublishedArticlesCount()) {
+                        System.out.println(department3Name + " & " + department4Name + " have the same amount of articles published by the lecturers");
+                    } else {
+                        System.out.println(department3Name + " & " + department4Name + " have different amount of articles published by the lecturers");
+                    }
+                    break;
+
+                case "14":
+
+                    Committee committee;
+                    while(true) {
+                        System.out.println("Enter committee name that u want to copy: ");
+                        String committeeName = scanner.nextLine();
+                        try {
+                            college.hasCommittee(committeeName);
+                            System.out.println(committeeName + " doesn't exist");
+                        } catch (ExistsException ignored) {
+                            committee = college.getCommitteeByName(committeeName);
+                            break;
+                        }
+                    }
+                    college.addCommittee(committee.copy());
+                    System.out.println("Successfully copied the committee, new committee name is: " + committee.getName() + "-new");
+                    break;
+
 
                 default:
                     System.out.println("Invalid function!");

@@ -1,5 +1,6 @@
 package yovel.danil;
 
+import yovel.danil.lecturers.DocDegLecturer;
 import yovel.danil.lecturers.Lecturer;
 
 public class Department {
@@ -19,6 +20,21 @@ public class Department {
     public Department(String name, int studentCount) {
         this(name, studentCount, new Lecturer[1]);
         this.lecturerCount = 0;
+    }
+
+    public int getLecturerCount() {
+        return lecturerCount;
+    }
+
+    public int getAllPublishedArticlesCount() {
+        int count = 0;
+        for (Lecturer lecturer : lecturers) {
+            if (lecturer == null) continue;
+            if (lecturer instanceof DocDegLecturer doc) {
+                count += doc.getPublishedArticlesCount();
+            }
+        }
+        return count;
     }
 
     public String getName() {
