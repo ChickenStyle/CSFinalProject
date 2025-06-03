@@ -62,8 +62,8 @@ public class Main {
                         System.out.println("Enter lecturer salary: ");
                         int lecturerSalary = scanner.nextInt();
 
-                        Lecturer newLecturer = Utils.createLecturer(name, lecturerId, degree, major, lecturerSalary, null);
-
+                        Lecturer newLecturer = Utils.createLecturer(lecturerName, lecturerId, degree, major, lecturerSalary, null);
+                        System.out.println(newLecturer);
                         college.addLecturer(newLecturer);
                         System.out.println("Lecturer added successfully!");
                         break;
@@ -386,14 +386,14 @@ public class Main {
 
                     department1 = college.getDepartmentByName(department1Name);
 
-                    System.out.println("Enter department 1 name: ");
+                    System.out.println("Enter department 2 name: ");
 
                     String department2Name = scanner.nextLine();
                     try {
                         college.hasDepartment(department2Name);
                     } catch (ExistsException ignored) {}
 
-                    Department department2 = college.getDepartmentByName(department1Name);
+                    Department department2 = college.getDepartmentByName(department2Name);
 
                     if (department1.getLecturerCount() == department2.getLecturerCount() ) {
                         System.out.println(department1Name + " & " + department2Name + " have the same amount of lecturers");
@@ -416,7 +416,7 @@ public class Main {
 
                     Department department3 = college.getDepartmentByName(department3Name);
 
-                    System.out.println("Enter department 1 name: ");
+                    System.out.println("Enter department 2 name: ");
 
                     String department4Name = scanner.nextLine();
                     try {

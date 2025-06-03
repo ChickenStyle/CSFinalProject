@@ -23,7 +23,11 @@ public class College {
                     "\n7 - Average salary of lecturers in the college" +
                     "\n8 - Average salary of department's members" +
                     "\n9 - Lecturers info" +
-                    "\n10 - Departments info\n";
+                    "\n10 - Departments info" +
+                    "\n11 - Compare Professor/Doctor based on amount of articles they published" +
+                    "\n12 - Compare Departments based on amount lecturers" +
+                    "\n13 - Compare Departments based on the amount of articles published by the lecturers" +
+                    "\n14 - Copy Department (Creates new department with a '-new' suffix\n";
 
 
     public College(String name) {
