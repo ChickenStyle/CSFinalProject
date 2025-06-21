@@ -3,6 +3,7 @@ package yovel.danil;
 import yovel.danil.lecturers.DocDegLecturer;
 import yovel.danil.lecturers.Lecturer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -10,15 +11,22 @@ public class Main {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        College college;
+        if (!Utils.hasPreviousData()) {
+            System.out.print("Enter college name: ");
 
-        System.out.print("Enter college name: ");
+            String name = scanner.nextLine();
 
-        String name = scanner.nextLine();
+            college = new College(name);
+            System.out.println("College created successfully!");
+        } else {
+            college = Utils.loadData();
+        }
 
-        College college = new College(name);
-        System.out.println("College created successfully!");
-        System.out.println("Welcome to " + name + " college!");
+
+        assert college != null;
+        System.out.println("Welcome to " + college.getName() + " college!");
 
 
         while (true) {
@@ -28,6 +36,7 @@ public class Main {
             switch (func) {
                 case "0":
                     System.out.println("Goodbye!");
+                    Utils.saveData(college);
                     return;
 
                 case "1":
@@ -150,7 +159,7 @@ public class Main {
                         Committee committee = college.getCommitteeByName(committeeName);
 
                         if (!committee.addMember(lecturer)) {
-                            System.out.println(lecturerName + " is already member of this lecturer!");
+                            System.out.println(lecturerName + " cannot join this committee");
                             break;
                         }
 
@@ -296,7 +305,7 @@ public class Main {
                     for (Lecturer lecturer : college.getLecturers()) {
                         salariesCombined +=  lecturer.getSalary();
                     }
-                    System.out.println(college.getName() + "'s average salary is: " + salariesCombined/college.getLecturers().length);
+                    System.out.println(college.getName() + "'s average salary is: " + salariesCombined/college.getLecturers().size());
 
                     break;
                 case "8":
@@ -316,7 +325,7 @@ public class Main {
                         averageSalary += lecturer.getSalary();
                     }
 
-                    System.out.println(departmentNam + "'s average salary is: " + averageSalary/department1.getLecturers().length);
+                    System.out.println(departmentNam + "'s average salary is: " + averageSalary/department1.getLecturers().size());
 
                     break;
 

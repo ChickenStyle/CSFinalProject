@@ -4,7 +4,9 @@ import yovel.danil.Committee;
 import yovel.danil.Degree;
 import yovel.danil.Department;
 
-public abstract class Lecturer {
+import java.io.Serializable;
+
+public abstract class Lecturer implements Serializable {
 
     public abstract boolean hasDepartment();
     public abstract int getId();

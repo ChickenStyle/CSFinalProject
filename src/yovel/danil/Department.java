@@ -3,27 +3,27 @@ package yovel.danil;
 import yovel.danil.lecturers.DocDegLecturer;
 import yovel.danil.lecturers.Lecturer;
 
-public class Department {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Department implements Serializable {
 
     private String name;
     private int studentCount;
-    private Lecturer[] lecturers;
-    private int lecturerCount;
+    private final ArrayList<Lecturer> lecturers;
 
-    public Department(String name, int studentCount, Lecturer[] lecturers) {
+    public Department(String name, int studentCount, ArrayList<Lecturer> lecturers) {
         this.name = name;
         this.studentCount = studentCount;
         this.lecturers = lecturers;
-        this.lecturerCount = lecturers.length;
     }
 
     public Department(String name, int studentCount) {
-        this(name, studentCount, new Lecturer[1]);
-        this.lecturerCount = 0;
+        this(name, studentCount, new ArrayList<>());
     }
 
     public int getLecturerCount() {
-        return lecturerCount;
+        return lecturers.size();
     }
 
     public int getAllPublishedArticlesCount() {
@@ -53,30 +53,17 @@ public class Department {
         this.studentCount = studentCount;
     }
 
-    public Lecturer[] getLecturers() {
+    public ArrayList<Lecturer> getLecturers() {
         return lecturers;
     }
     private boolean isLecturerInDepartment(Lecturer lecturer) {
-        for (int i = 0; i < lecturers.length; i++) {
-            if (lecturers[i] == null) continue;
-            if (lecturers[i].equals(lecturer)) {
-                return true;
-            }
-        }
-        return false;
+        return lecturers.contains(lecturer);
     }
 
     public boolean addLecturer(Lecturer lecturer) {
         if (lecturer == null) {return false;}
         if (isLecturerInDepartment(lecturer)) { return false;}
-
-
-        if (this.lecturerCount >= this.lecturers.length) {
-            this.lecturers = Utils.expandStrArr(this.lecturers);
-        }
-
-        this.lecturers[this.lecturerCount] = lecturer;
-        this.lecturerCount++;
+        lecturers.add(lecturer);
         return true;
     }
 }

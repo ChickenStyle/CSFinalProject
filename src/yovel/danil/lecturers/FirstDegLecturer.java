@@ -3,7 +3,8 @@ package yovel.danil.lecturers;
 import yovel.danil.Committee;
 import yovel.danil.Degree;
 import yovel.danil.Department;
-import yovel.danil.Utils;
+
+import java.util.ArrayList;
 
 public class FirstDegLecturer extends Lecturer {
 
@@ -12,8 +13,7 @@ public class FirstDegLecturer extends Lecturer {
     private final String major;
     private float salary;
     private Department department;
-    private Committee[] committees;
-    private int committeesCount;
+    private ArrayList<Committee> committees;
 
     public FirstDegLecturer(String name, int id, String major, float salary, Department department) {
         this.id = id;
@@ -21,8 +21,7 @@ public class FirstDegLecturer extends Lecturer {
         this.major = major;
         this.salary = salary;
         this.department = department;
-        this.committees = new Committee[1];
-        this.committeesCount = 0;
+        this.committees = new ArrayList<>();
     }
 
     public boolean hasDepartment() {
@@ -63,19 +62,16 @@ public class FirstDegLecturer extends Lecturer {
     }
 
     public void addCommittee(Committee committee) {
-        if (this.committeesCount >= this.committees.length) {
-            this.committees = Utils.expandStrArr(this.committees);
-        }
-        this.committees[this.committeesCount] = committee;
-        this.committeesCount++;
+        this.committees.add(committee);
     }
 
     @Override
     public String toString() {
         String committeesString = "";
-        for (int i = 0; i < committeesCount; i++) {
-            committeesString += committees[i].getName() + " ";
+        for (Committee comm : committees) {
+            committeesString += comm.getName() + " ";
         }
+
         return "Name: " + name + "\n Current Committees: " + committeesString;
     }
 

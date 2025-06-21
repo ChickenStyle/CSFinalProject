@@ -2,23 +2,27 @@ package yovel.danil;
 
 import yovel.danil.lecturers.Lecturer;
 
-public class Committee {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Committee implements Serializable {
     private String name;
     private Lecturer chairman;
-    private Lecturer[] members;
-    private int membersCount;
+    private ArrayList<Lecturer> members;
+    private final Degree committeeDegree;
 
 
-    public Committee(String name, Lecturer chairman, Lecturer[] members, int membersCount) {
+    public Committee(String name, Lecturer chairman, ArrayList<Lecturer> members, Degree commititeesDegree) {
         this.name = name;
         this.chairman = chairman;
         this.members = members;
-        this.membersCount = membersCount;
+        this.committeeDegree = commititeesDegree;
     }
 
     public Committee(String name) {
-        this(name, null, new Lecturer[1], 0);
+        this(name, null, new ArrayList<>(), Degree.FIRST);
     }
+
     public String getName() {
         return name;
     }
@@ -43,30 +47,21 @@ public class Committee {
         return true;
     }
 
-    public Lecturer[] getMembers() {
+    public ArrayList<Lecturer> getMembers() {
         return members;
     }
 
     public boolean isMember(Lecturer lecturer) {
-        if (lecturer == null) return false;
-        for (Lecturer member: members) {
-            if (member == null) continue;
-            if (member.equals(lecturer)) return true;
-        }
-        return false;
+        return members.contains(lecturer);
     }
 
     public boolean addMember(Lecturer member) {
         if (member == null) return false;
         if (isMember(member)) return false;
         if (this.chairman == member) return false;
+        if (member.getDegree() != committeeDegree) return false;
 
-
-        if (this.membersCount >= members.length) {
-            members = Utils.expandStrArr(this.members);
-        }
-        members[this.membersCount] = member;
-        this.membersCount++;
+        members.add(member);
         member.addCommittee(this);
         return true;
     }
@@ -74,27 +69,16 @@ public class Committee {
     public boolean removeMember(Lecturer member) {
         if (member == null) return false;
         if (!isMember(member)) return false;
-
-        Lecturer[] newMembers = new Lecturer[members.length];
-        int counter = 0;
-        for (Lecturer lecturer : this.members) {
-            if (lecturer != null && !lecturer.equals(member)) {
-                newMembers[counter] = lecturer;
-                counter++;
-            }
-        }
-
-        this.membersCount--;
-        this.members = newMembers;
+        members.remove(member);
         return true;
     }
 
     @Override
     public String toString() {
-        return "Name: " + name + " Chairman:" + chairman.getName() + " Members Count: " + membersCount;
+        return "Name: " + name + " Chairman:" + chairman.getName() + " Members Count: " + members.size();
     }
 
     public Committee copy() {
-        return new Committee(name + "-new", chairman, members, membersCount);
+        return new Committee(name + "-new", chairman, members, committeeDegree);
     }
 }

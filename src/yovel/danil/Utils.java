@@ -2,8 +2,14 @@ package yovel.danil;
 
 import yovel.danil.lecturers.*;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Utils {
 
+    private static final Path path = Paths.get("./data.secret");
 
     public static Lecturer[] expandStrArr(Lecturer[] arr) {
         Lecturer[] newArr = new Lecturer[arr.length * 2];
@@ -57,4 +63,31 @@ public class Utils {
         }
         return null;
     }
+
+    public static boolean hasPreviousData() {
+        return Files.exists(path);
+    }
+
+    public static void saveData(College college) throws IOException {
+        if (!hasPreviousData()) {
+            Files.createFile(path);
+        }
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("./data.secret"))) {
+            out.writeObject(college);
+            System.out.println("Saved College Data");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static College loadData() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("./data.secret"))) {
+            return (College) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
